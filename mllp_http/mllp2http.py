@@ -31,8 +31,8 @@ class MllpHandler(socketserver.StreamRequestHandler):
         local_address = self.request.getsockname()
         remote_address = self.request.getpeername()
 
-        try:
-            for message in read_mllp(self.rfile):
+        for message in read_mllp(self.rfile):
+            try:
                 logger.info("Message: %s bytes", len(message))
                 headers = {
                     "Forwarded": f"by={display_address(local_address)};for={display_address(remote_address)};proto=mllp",
@@ -49,16 +49,19 @@ class MllpHandler(socketserver.StreamRequestHandler):
                     timeout=self.http_options.timeout,
                 )
                 response.raise_for_status()
-        except requests.exceptions.HTTPError as e:
-            logger.error("HTTP response error: %s", e.response.status_code)
-        except IOError as e:
-            while e.__context__ is not None:
-                e = e.__context__
-            logger.error("Connection error: %s", e)
-        else:
-            logger.info("Response: %s bytes", len(response))
-            write_mllp(self.wfile, response.content)
-            self.wfile.flush()
+            except requests.exceptions.HTTPError as e:
+                logger.error("HTTP response error: %s", e.response.status_code)
+                break
+            except IOError as e:
+                while e.__context__ is not None:
+                    e = e.__context__
+                logger.error("Connection error: %s", e)
+                break
+            else:
+                content = response.content
+                logger.info("Response: %s bytes", len(content))
+                write_mllp(self.wfile, content)
+                self.wfile.flush()
 
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
