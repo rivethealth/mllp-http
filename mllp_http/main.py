@@ -107,7 +107,7 @@ def mllp2http():
         "-p", "--port", default=2575, type=int, help="MLLP port",
     )
     parser.add_argument(
-        "--content-type", default="1", choices=("1"), help="HTTP Content-Type header",
+        "--content-type", default="x-application/hl7-v2+er7", help="HTTP Content-Type header",
     )
     parser.add_argument(
         "--log-level", choices=("error", "warn", "info"), default="info",
