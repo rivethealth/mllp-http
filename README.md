@@ -11,7 +11,7 @@ The `http2mllp` program is an HTTP server that converts requests to MLLP.
 The `mllp2http` program is an MLLP server that converts messages to HTTP requests.
 
 Implements [MLLP release 1](https://www.hl7.org/documentcenter/public/wg/inm/mllp_transport_specification.PDF) and [HTTP/1.1](https://tools.ietf.org/html/rfc2616).
-Each MLLP message is assumped to have a corresponding response contnet.
+Each MLLP message is assumed to have a corresponding response contnet.
 
 Roughly compatible with [HL7 over HTTP](https://hapifhir.github.io/hapi-hl7v2/hapi-hl7overhttp/specification.html).
 
@@ -78,7 +78,7 @@ optional arguments:
 ```
 
 ```
-usage: mllp2http [-h] [-H HOST] [-p PORT] [--content-type {1}]
+usage: mllp2http [-h] [-H HOST] [-p PORT] [--content-type CONTENT_TYPE]
                  [--log-level {error,warn,info}] [--mllp-release {1}]
                  [--timeout TIMEOUT] [-v]
                  http_url
@@ -92,9 +92,13 @@ optional arguments:
   -h, --help            show this help message and exit
   -H HOST, --host HOST  MLLP host
   -p PORT, --port PORT  MLLP port
-  --content-type {1}    HTTP Content-Type header
+  --content-type CONTENT_TYPE
+                        HTTP Content-Type header
   --log-level {error,warn,info}
   --mllp-release {1}    MLLP release version
-  --timeout TIMEOUT     Timeout in milliseconds
+  --timeout TIMEOUT     timeout in milliseconds
   -v, --version         show program's version number and exit
+
+environment variables:
+    HTTP_AUTHORIZATION - HTTP Authorization header
 ```

@@ -40,6 +40,10 @@ class MllpHandler(socketserver.StreamRequestHandler):
                     "X-Forwarded-For": display_address(remote_address),
                     "X-Forwarded-Proto": "mllp",
                 }
+                try:
+                    headers["Authorization"] = os.environ["HTTP_AUTHORIZATION"]
+                except KeyError:
+                    pass
                 if self.http_options.content_type is not None:
                     headers["Content-Type"] = self.http_options.content_type
                 response = session.post(

@@ -35,7 +35,7 @@ def http2mllp():
         "--keep-alive",
         type=int,
         default=0,
-        help="Keep-alive in milliseconds, or unlimited if -1.",
+        help="keep-alive in milliseconds, or unlimited if -1.",
     )
     parser.add_argument(
         "--log-level", choices=("error", "warn", "info"), default="info",
@@ -44,7 +44,7 @@ def http2mllp():
         "--mllp-max-messages",
         type=int,
         default=-1,
-        help="Maximum number of messages per connection, or unlimited if -1.",
+        help="maximum number of messages per connection, or unlimited if -1.",
     )
     parser.add_argument(
         "--mllp-release", default="1", choices=("1"), help="MLLP release version",
@@ -53,7 +53,7 @@ def http2mllp():
         "--timeout",
         default=1000 * 10,
         type=float,
-        help="Socket timeout, in milliseconds, or unlimited if 0.",
+        help="socket timeout, in milliseconds, or unlimited if 0.",
     )
     parser.add_argument(
         "-v", "--version", action="version", version="%(prog)s {}".format(__version__)
@@ -96,9 +96,12 @@ def http2mllp():
 def mllp2http():
     parser = argparse.ArgumentParser(
         "mllp2http",
-        description="""
-            MLLP server that proxies an HTTP server. Sends back the HTTP response.
-        """,
+        description="MLLP server that proxies an HTTP server. Sends back the HTTP response.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+environment variables:
+    HTTP_AUTHORIZATION - HTTP Authorization header
+        """
     )
     parser.add_argument(
         "-H", "--host", default="0.0.0.0", help="MLLP host",
@@ -107,7 +110,9 @@ def mllp2http():
         "-p", "--port", default=2575, type=int, help="MLLP port",
     )
     parser.add_argument(
-        "--content-type", default="x-application/hl7-v2+er7", help="HTTP Content-Type header",
+        "--content-type",
+        default="x-application/hl7-v2+er7",
+        help="HTTP Content-Type header",
     )
     parser.add_argument(
         "--log-level", choices=("error", "warn", "info"), default="info",
@@ -116,7 +121,7 @@ def mllp2http():
         "--mllp-release", default="1", choices=("1"), help="MLLP release version",
     )
     parser.add_argument(
-        "--timeout", default=1000 * 10, type=float, help="Timeout in milliseconds",
+        "--timeout", default=1000 * 10, type=float, help="timeout in milliseconds",
     )
     parser.add_argument(
         "-v", "--version", action="version", version="%(prog)s {}".format(__version__)
