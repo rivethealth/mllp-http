@@ -1,6 +1,6 @@
 # MLLP <-> HTTP
 
-[![PyPi](https://img.shields.io/pypi/v/mllp-http)](https://pypi.org/project/awscli-saml/)
+[![PyPI](https://img.shields.io/pypi/v/mllp-http)](https://pypi.org/project/mllp-http/)
 
 Convert MLLP to HTTP and vice versa.
 
