@@ -32,41 +32,42 @@ class MllpHandler(socketserver.StreamRequestHandler):
         local_address = self.request.getsockname()
         remote_address = self.request.getpeername()
 
-        for message in read_mllp(self.rfile):
-            try:
-                logger.info("Message: %s bytes", len(message))
-                headers = {
-                    "Forwarded": f"by={display_address(local_address)};for={display_address(remote_address)};proto=mllp",
-                    "User-Agent": f"mllp2http/{__version__}",
-                    "X-Forwarded-For": display_address(remote_address),
-                    "X-Forwarded-Proto": "mllp",
-                }
+        try:
+            for message in read_mllp(self.rfile):
                 try:
-                    headers["Authorization"] = os.environ["HTTP_AUTHORIZATION"]
-                except KeyError:
-                    pass
-                if self.http_options.content_type is not None:
-                    headers["Content-Type"] = self.http_options.content_type
-                response = session.post(
-                    urllib.parse.urlunparse(self.http_url),
-                    data=message,
-                    headers=headers,
-                    timeout=self.http_options.timeout,
-                )
-                response.raise_for_status()
-            except requests.exceptions.HTTPError as e:
-                logger.error("HTTP response error: %s", e.response.status_code)
-                break
-            except IOError as e:
-                while e.__context__ is not None:
-                    e = e.__context__
-                logger.error("Connection error: %s", e)
-                break
-            else:
-                content = response.content
-                logger.info("Response: %s bytes", len(content))
-                write_mllp(self.wfile, content)
-                self.wfile.flush()
+                    logger.info("Message: %s bytes", len(message))
+                    headers = {
+                        "Forwarded": f"by={display_address(local_address)};for={display_address(remote_address)};proto=mllp",
+                        "User-Agent": f"mllp2http/{__version__}",
+                        "X-Forwarded-For": display_address(remote_address),
+                        "X-Forwarded-Proto": "mllp",
+                    }
+                    try:
+                        headers["Authorization"] = os.environ["HTTP_AUTHORIZATION"]
+                    except KeyError:
+                        pass
+                    if self.http_options.content_type is not None:
+                        headers["Content-Type"] = self.http_options.content_type
+                    response = session.post(
+                        urllib.parse.urlunparse(self.http_url),
+                        data=message,
+                        headers=headers,
+                        timeout=self.http_options.timeout,
+                    )
+                    response.raise_for_status()
+                except requests.exceptions.HTTPError as e:
+                    logger.error("HTTP response error: %s", e.response.status_code)
+                    break
+                except Exception as e:
+                    logger.error("HTTP connection error: %s", e)
+                    break
+                else:
+                    content = response.content
+                    logger.info("Response: %s bytes", len(content))
+                    write_mllp(self.wfile, content)
+                    self.wfile.flush()
+        except Exception as e:
+            logger.error("Failed read MLLP message: %s", e)
 
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
