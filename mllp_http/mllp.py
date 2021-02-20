@@ -12,12 +12,15 @@ class State:
     AFTER_BLOCK = 0
     BEFORE_BLOCK = 1
     BLOCK = 2
-    ERROR = 3
 
 
 def read_bytes(file):
     for b in iter(functools.partial(file.read1, 1), b""):
         yield ord(b)
+
+
+def to_hex(byte):
+    return "EOF" if byte is None else hex(byte)
 
 
 def read_mllp(rfile):
@@ -42,22 +45,14 @@ def read_mllp(rfile):
             if byte == Format.CARRAIGE_RETURN:
                 state = State.BEFORE_BLOCK
                 advance()
-            elif byte == Format.START_BLOCK:
-                logger.warning(
-                    "Expected %s instead of %s (byte:%s)",
-                    hex(Format.CARRAIGE_RETURN),
-                    hex(byte),
-                    i,
-                )
-                state = State.Error
             else:
                 logger.error(
                     "Expected %s instead of %s (byte:%s)",
-                    hex(Format.CARRAIGE_RETURN),
-                    hex(byte),
+                    to_hex(Format.CARRAIGE_RETURN),
+                    to_hex(byte),
                     i,
                 )
-                state = State.Error
+                break
         elif state == State.BEFORE_BLOCK:
             if byte is None:
                 break
@@ -66,22 +61,22 @@ def read_mllp(rfile):
                 state = State.BLOCK
                 advance()
             else:
-                state = State.ERROR
-                logger.warning(
+                logger.error(
                     "Expected %s instead of %s (byte:%s)",
-                    hex(Format.START_BLOCK),
-                    hex(byte),
+                    to_hex(Format.START_BLOCK),
+                    to_hex(byte),
                     i,
                 )
+                break
         elif state == State.BLOCK:
             if byte == Format.START_BLOCK:
                 logger.error(
                     "Expected content instead of %s (byte:%s)",
-                    Format.CARRAIGE_RETURN,
-                    byte,
+                    to_hex(Format.CARRAIGE_RETURN),
+                    to_hex(byte),
                     i,
                 )
-                state = State.ERROR
+                break
             elif byte == Format.END_BLOCK:
                 yield bytes(content)
                 content = None
@@ -89,11 +84,6 @@ def read_mllp(rfile):
                 advance()
             else:
                 content.append(byte)
-                advance()
-        elif state == State.ERROR:
-            if byte == Format.START_BLOCK:
-                state = Format.START_BLOCK
-            else:
                 advance()
 
 
