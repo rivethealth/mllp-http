@@ -60,38 +60,35 @@ docker run -it -p 2575:2575 rivethealth/mllp-http mllp2http http://localhost:800
 ### http2mllp
 
 ```
-usage: http2mllp [-h] [-H HOST] [-p PORT] [--keep-alive KEEP_ALIVE]
-                 [--log-level {error,warn,info}]
-                 [--mllp-max-messages MLLP_MAX_MESSAGES] [--mllp-release {1}]
+usage: http2mllp [-h] [-H HOST] [-p PORT] [--keep-alive KEEP_ALIVE] [--log-level {error,warn,info}] [--mllp-max-messages MLLP_MAX_MESSAGES] [--mllp-release {1}]
                  [--timeout TIMEOUT] [-v]
                  mllp_url
 
-HTTP server that proxies an MLLP server. Expects an MLLP response message and
-uses it as the HTTP response.
+            HTTP server that proxies an MLLP server.
+            Expects an MLLP response message and uses it as the HTTP response.
+        
 
 positional arguments:
   mllp_url              MLLP URL, e.g. mllp://hostname:port
 
 optional arguments:
   -h, --help            show this help message and exit
-  -H HOST, --host HOST  HTTP host
-  -p PORT, --port PORT  HTTP port
+  -H HOST, --host HOST  HTTP host (default: 0.0.0.0)
+  -p PORT, --port PORT  HTTP port (default: 8000)
   --keep-alive KEEP_ALIVE
-                        Keep-alive in milliseconds, or unlimited if -1.
+                        keep-alive in milliseconds, or unlimited if -1. (default: 0)
   --log-level {error,warn,info}
   --mllp-max-messages MLLP_MAX_MESSAGES
-                        Maximum number of messages per connection, or
-                        unlimited if -1.
-  --mllp-release {1}    MLLP release version
-  --timeout TIMEOUT     Socket timeout, in milliseconds, or unlimited if 0.
+                        maximum number of messages per connection, or unlimited if -1. (default: -1)
+  --mllp-release {1}    MLLP release version (default: 1)
+  --timeout TIMEOUT     socket timeout, in milliseconds, or unlimited if 0. (default: 10000)
   -v, --version         show program's version number and exit
 ```
 
 ### mllp2http
 
 ```
-usage: mllp2http [-h] [-H HOST] [-p PORT] [--content-type CONTENT_TYPE]
-                 [--log-level {error,warn,info}] [--mllp-release {1}]
+usage: mllp2http [-h] [-H HOST] [-p PORT] [--content-type CONTENT_TYPE] [--log-level {error,warn,info}] [--mllp-release {1}]
                  [--timeout TIMEOUT] [-v]
                  http_url
 
@@ -102,13 +99,13 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -H HOST, --host HOST  MLLP host
-  -p PORT, --port PORT  MLLP port
+  -H HOST, --host HOST  MLLP host (default: 0.0.0.0)
+  -p PORT, --port PORT  MLLP port (default: 2575)
   --content-type CONTENT_TYPE
-                        HTTP Content-Type header
+                        HTTP Content-Type header (default: x-application/hl7-v2+er7)
   --log-level {error,warn,info}
-  --mllp-release {1}    MLLP release version
-  --timeout TIMEOUT     timeout in milliseconds
+  --mllp-release {1}    MLLP release version (default: 1)
+  --timeout TIMEOUT     timeout in milliseconds (default: 10000)
   -v, --version         show program's version number and exit
 
 environment variables:
@@ -159,4 +156,18 @@ and see the HTTP server's response, which describes the HTTP request:
   "origin": "127.0.0.1:54572", 
   "url": "mllp://localhost:8000/post"
 }
+```
+
+## Developing
+
+To install:
+
+```sh
+make install
+```
+
+Before committing, format:
+
+```sh
+make format
 ```

@@ -3,6 +3,8 @@ import logging
 import urllib.parse
 from .version import __version__
 
+class ArgumentFormatter(argparse.ArgumentDefaultsHelpFormatter, argparse.RawDescriptionHelpFormatter):
+    pass
 
 def log_level(arg):
     if arg == "error":
@@ -24,6 +26,7 @@ def http2mllp():
             HTTP server that proxies an MLLP server.
             Expects an MLLP response message and uses it as the HTTP response.
         """,
+        formatter_class=ArgumentFormatter,
     )
     parser.add_argument(
         "-H",
@@ -109,7 +112,7 @@ def mllp2http():
     parser = argparse.ArgumentParser(
         "mllp2http",
         description="MLLP server that proxies an HTTP server. Sends back the HTTP response.",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
+        formatter_class=ArgumentFormatter,
         epilog="""
 environment variables:
     HTTP_AUTHORIZATION - HTTP Authorization header
