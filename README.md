@@ -50,12 +50,14 @@ docker pull rivethealth/mllp-http
 Run as
 
 ```sh
-docker run -it -p 2575:2575 rivethealth/mllp-http http2mllp http://localhost:8000
+docker run -it -p 2575:2575 rivethealth/mllp-http http2mllp mllp://localhost:2575
 
 docker run -it -p 2575:2575 rivethealth/mllp-http mllp2http http://localhost:8000
 ```
 
 ## Usage
+
+### http2mllp
 
 ```
 usage: http2mllp [-h] [-H HOST] [-p PORT] [--keep-alive KEEP_ALIVE]
@@ -84,6 +86,8 @@ optional arguments:
   --timeout TIMEOUT     Socket timeout, in milliseconds, or unlimited if 0.
   -v, --version         show program's version number and exit
 ```
+
+### mllp2http
 
 ```
 usage: mllp2http [-h] [-H HOST] [-p PORT] [--content-type CONTENT_TYPE]
@@ -124,13 +128,13 @@ docker run -p 8000:80 kennethreitz/httpbin
 Run the MLLP connector:
 
 ```sh
-mllp2http http://localhost:8000/
+mllp2http http://localhost:8000/post
 ```
 
 Send an MLLP message:
 
 ```sh
-printf '\x0bmessage\x1c\x0d' | socat - TCP:localhost:2575
+printf '\x0bMESSAGE\x1c\x0d' | socat - TCP:localhost:2575
 ```
 
 and see the HTTP server's response, which describes the HTTP request:
@@ -138,7 +142,7 @@ and see the HTTP server's response, which describes the HTTP request:
 ```json
 {
   "args": {}, 
-  "data": "message", 
+  "data": "MESSAGE", 
   "files": {}, 
   "form": {}, 
   "headers": {
