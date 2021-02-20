@@ -1,21 +1,29 @@
-# AWS SAML CLI
+# MLLP <-> HTTP
 
 [![PyPi](https://img.shields.io/pypi/v/mllp-http)](https://pypi.org/project/awscli-saml/)
 
 Convert MLLP to HTTP and vice versa.
 
+Keywords: MLLP, HTTP, HL7
+
 ## Overview
 
 The `http2mllp` program is an HTTP server that converts requests to MLLP.
 
-The `mllp2http` program is an MLLP server that converts messages to HTTP requests.
+The `mllp2http` program is an MLLP server that converts messages to HTTP
+requests.
 
-Implements [MLLP release 1](https://www.hl7.org/documentcenter/public/wg/inm/mllp_transport_specification.PDF) and [HTTP/1.1](https://tools.ietf.org/html/rfc2616).
-Each MLLP message is assumed to have a corresponding response contnet.
+Implements
+[MLLP release 1](https://www.hl7.org/documentcenter/public/wg/inm/mllp_transport_specification.PDF)
+and [HTTP/1.1](https://tools.ietf.org/html/rfc2616). Each MLLP message is
+assumed to have a corresponding response content (e.g. HL7 acknoledgment).
 
-Roughly compatible with [HL7 over HTTP](https://hapifhir.github.io/hapi-hl7v2/hapi-hl7overhttp/specification.html).
+Roughly compatible with
+[HL7 over HTTP](https://hapifhir.github.io/hapi-hl7v2/hapi-hl7overhttp/specification.html).
 
-Note that this is only MLLP; it does not process HL7v2/HL7v3 messages. Notably, when used for HL7, the HTTP side must be able to read/generate acknowledgements.
+Note that this is only MLLP; it does not process HL7v2/HL7v3 messages
+themselves. Notably, when used for HL7, the HTTP participant must be able to
+read/generate acknowledgements.
 
 ## Install
 
@@ -101,4 +109,50 @@ optional arguments:
 
 environment variables:
     HTTP_AUTHORIZATION - HTTP Authorization header
+```
+
+## Examples
+
+### mllp2http
+
+Run the HTTP server:
+
+```sh
+docker run -p 8000:80 kennethreitz/httpbin
+```
+
+Run the MLLP connector:
+
+```sh
+mllp2http http://localhost:8000/
+```
+
+Send an MLLP message:
+
+```sh
+printf '\x0bmessage\x1c\x0d' | socat - TCP:localhost:2575
+```
+
+and see the HTTP server's response, which describes the HTTP request:
+
+```json
+{
+  "args": {}, 
+  "data": "message", 
+  "files": {}, 
+  "form": {}, 
+  "headers": {
+    "Accept": "*/*", 
+    "Accept-Encoding": "gzip, deflate", 
+    "Connection": "keep-alive", 
+    "Content-Length": "7", 
+    "Content-Type": "x-application/hl7-v2+er7", 
+    "Forwarded": "by=127.0.0.1:2575;for=127.0.0.1:54572;proto=mllp", 
+    "Host": "localhost:8000", 
+    "User-Agent": "mllp2http/1.0.2"
+  }, 
+  "json": null, 
+  "origin": "127.0.0.1:54572", 
+  "url": "mllp://localhost:8000/post"
+}
 ```
