@@ -4,7 +4,7 @@
 
 Convert MLLP to HTTP and vice versa.
 
-Keywords: MLLP, HTTP, HL7
+Keywords: MLLP, HTTP, HL7, HL7 over HTTP
 
 ## Overview
 
@@ -18,7 +18,7 @@ Implements
 and [HTTP/1.1](https://tools.ietf.org/html/rfc2616). Each MLLP message is
 assumed to have a corresponding response content (e.g. HL7 acknoledgment).
 
-Roughly compatible with
+Compatible with
 [HL7 over HTTP](https://hapifhir.github.io/hapi-hl7v2/hapi-hl7overhttp/specification.html).
 
 Note that this is only MLLP; it does not process HL7v2/HL7v3 messages
