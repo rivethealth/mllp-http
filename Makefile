@@ -35,8 +35,9 @@ format: target/format.log
 .PHONY: test-format
 test-format: target/format-test.log
 
-target/format.log: $(FORMAT_SRC)
+target/format.log: $(FORMAT_SRC) target/node_modules.target
 	black $(FORMAT_SRC)
+	node_modules/.bin/prettier --write .
 	mkdir -p $(@D)
 	touch $@ target/format-test.log
 
@@ -44,6 +45,13 @@ target/format-test.log: $(FORMAT_SRC)
 	black --check $(FORMAT_SRC)
 	mkdir -p $(@D)
 	touch $@ target/format.log
+
+###
+# Npm
+###
+target/node_modules.target:
+	yarn install
+	> $@
 
 ###
 # Pip

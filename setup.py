@@ -30,7 +30,9 @@ setuptools.setup(
     install_requires=["requests"],
     name="mllp-http",
     packages=setuptools.find_packages(),
-    project_urls={"Issues": "https://github.com/rivethealth/mllp-http/issues",},
+    project_urls={
+        "Issues": "https://github.com/rivethealth/mllp-http/issues",
+    },
     url="https://github.com/rivethealth/mllp-http",
     version=version["__version__"],
 )

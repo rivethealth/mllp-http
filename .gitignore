@@ -1,5 +1,7 @@
 *.egg-info/
 *.pyc
 
+node_modules/
+
 /build/
 /target/
