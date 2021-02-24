@@ -66,7 +66,7 @@ usage: http2mllp [-h] [-H HOST] [-p PORT] [--keep-alive KEEP_ALIVE] [--log-level
 
             HTTP server that proxies an MLLP server.
             Expects an MLLP response message and uses it as the HTTP response.
-        
+
 
 positional arguments:
   mllp_url              MLLP URL, e.g. mllp://hostname:port
@@ -138,22 +138,22 @@ and see the HTTP server's response, which describes the HTTP request:
 
 ```json
 {
-  "args": {}, 
-  "data": "MESSAGE", 
-  "files": {}, 
-  "form": {}, 
+  "args": {},
+  "data": "MESSAGE",
+  "files": {},
+  "form": {},
   "headers": {
-    "Accept": "*/*", 
-    "Accept-Encoding": "gzip, deflate", 
-    "Connection": "keep-alive", 
-    "Content-Length": "7", 
-    "Content-Type": "x-application/hl7-v2+er7", 
-    "Forwarded": "by=127.0.0.1:2575;for=127.0.0.1:54572;proto=mllp", 
-    "Host": "localhost:8000", 
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Length": "7",
+    "Content-Type": "x-application/hl7-v2+er7",
+    "Forwarded": "by=127.0.0.1:2575;for=127.0.0.1:54572;proto=mllp",
+    "Host": "localhost:8000",
     "User-Agent": "mllp2http/1.0.2"
-  }, 
-  "json": null, 
-  "origin": "127.0.0.1:54572", 
+  },
+  "json": null,
+  "origin": "127.0.0.1:54572",
   "url": "mllp://localhost:8000/post"
 }
 ```

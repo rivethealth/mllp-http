@@ -3,8 +3,12 @@ import logging
 import urllib.parse
 from .version import __version__
 
-class ArgumentFormatter(argparse.ArgumentDefaultsHelpFormatter, argparse.RawDescriptionHelpFormatter):
+
+class ArgumentFormatter(
+    argparse.ArgumentDefaultsHelpFormatter, argparse.RawDescriptionHelpFormatter
+):
     pass
+
 
 def log_level(arg):
     if arg == "error":

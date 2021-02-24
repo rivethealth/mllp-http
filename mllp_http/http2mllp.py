@@ -3,6 +3,7 @@ import logging
 import threading
 import time
 from .mllp import write_mllp
+from .net import read_socket_bytes
 
 logger = logging.getLogger(__name__)
 
@@ -91,7 +92,7 @@ class MllpConnection:
         self.address = address
         self.cancel = None
         self.closed = False
-        self.responses = read_mllp(self.socket)
+        self.responses = read_mllp(read_socket_bytes(self.socket))
         self.socket = socket
 
     def close():

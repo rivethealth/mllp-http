@@ -14,22 +14,15 @@ class State:
     BLOCK = 2
 
 
-def read_bytes(file):
-    for b in iter(functools.partial(file.read1, 1), b""):
-        yield ord(b)
-
-
 def to_hex(byte):
     return "EOF" if byte is None else hex(byte)
 
 
-def read_mllp(rfile):
+def read_mllp(it):
     logger = logging.getLogger("mllp.parse")
 
     content = None
     state = State.BEFORE_BLOCK
-    byte = None
-    it = read_bytes(rfile)
     byte = None
     i = -1
 

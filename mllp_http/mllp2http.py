@@ -5,6 +5,7 @@ import requests
 import socketserver
 import urllib
 from .mllp import read_mllp, write_mllp
+from .net import read_socket_bytes
 from .version import __version__
 
 logger = logging.getLogger(__name__)
@@ -32,8 +33,10 @@ class MllpHandler(socketserver.StreamRequestHandler):
         local_address = self.request.getsockname()
         remote_address = self.request.getpeername()
 
+        stream = read_socket_bytes(self.rfile)
+
         try:
-            for message in read_mllp(self.rfile):
+            for message in read_mllp(stream):
                 try:
                     logger.info("Message: %s bytes", len(message))
                     headers = {
