@@ -5,7 +5,7 @@ import logging
 class Format:
     START_BLOCK = 0x0B
     END_BLOCK = 0x1C
-    CARRAIGE_RETURN = 0x0D
+    CARRIAGE_RETURN = 0x0D
 
 
 class State:
@@ -35,13 +35,13 @@ def read_mllp(it):
     advance()
     while True:
         if state == State.AFTER_BLOCK:
-            if byte == Format.CARRAIGE_RETURN:
+            if byte == Format.CARRIAGE_RETURN:
                 state = State.BEFORE_BLOCK
                 advance()
             else:
                 logger.error(
                     "Expected %s instead of %s (byte:%s)",
-                    to_hex(Format.CARRAIGE_RETURN),
+                    to_hex(Format.CARRIAGE_RETURN),
                     to_hex(byte),
                     i,
                 )
@@ -65,7 +65,7 @@ def read_mllp(it):
             if byte == Format.START_BLOCK:
                 logger.error(
                     "Expected content instead of %s (byte:%s)",
-                    to_hex(Format.CARRAIGE_RETURN),
+                    to_hex(Format.CARRIAGE_RETURN),
                     to_hex(byte),
                     i,
                 )
@@ -83,4 +83,4 @@ def read_mllp(it):
 def write_mllp(wfile, content):
     wfile.write(bytes([Format.START_BLOCK]))
     wfile.write(content)
-    wfile.write(bytes([Format.END_BLOCK, Format.CARRAIGE_RETURN]))
+    wfile.write(bytes([Format.END_BLOCK, Format.CARRIAGE_RETURN]))
