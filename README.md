@@ -1,29 +1,40 @@
-# MLLP <-> HTTP
+# MLLP/HTTP
 
 [![PyPI](https://img.shields.io/pypi/v/mllp-http)](https://pypi.org/project/mllp-http/)
 
+## Overview
+
 Convert MLLP to HTTP and vice versa.
+
+`http2mllp` is an HTTP server that converts requests to MLLP.
+
+`mllp2http` is an MLLP server that converts messages to HTTP requests.
 
 Keywords: MLLP, HTTP, HL7, HL7 over HTTP
 
-## Overview
+## Description
 
-The `http2mllp` program is an HTTP server that converts requests to MLLP.
+MLLP (Minimum Lower Layer Protocol) is the traditional session protocol for HL7
+messages.
 
-The `mllp2http` program is an MLLP server that converts messages to HTTP
-requests.
+Many modern tools (load balancers, application frameworks, API monitoring) are
+designed around HTTP. This observation is the foundation for the
+[HL7 over HTTP](https://hapifhir.github.io/hapi-hl7v2/hapi-hl7overhttp/specification.html)
+specification.
+
+This project, MLLP/HTTP, bridges these two protocols, allowing network engineers
+and application develoipers to work with familiar technlogy.
 
 Implements
 [MLLP release 1](https://www.hl7.org/documentcenter/public/wg/inm/mllp_transport_specification.PDF)
 and [HTTP/1.1](https://tools.ietf.org/html/rfc2616). Each MLLP message is
 assumed to have a corresponding response content (e.g. HL7 acknoledgment).
 
-Compatible with
-[HL7 over HTTP](https://hapifhir.github.io/hapi-hl7v2/hapi-hl7overhttp/specification.html).
-
-Note that this is only MLLP; it does not process HL7v2/HL7v3 messages
-themselves. Notably, when used for HL7, the HTTP participant must be able to
-read/generate acknowledgements.
+Note that this project deals only with the MLLP layer; it does not process HL7
+messages themselves. Notably, the HTTP participant must be able to intepret HL7
+messages and generate acknowledgements. This separation is a good thing, as it
+leaves application developers with full access to the features of the HL7
+protocol.
 
 ## Install
 
@@ -116,7 +127,7 @@ environment variables:
 
 ### mllp2http
 
-Run the HTTP server:
+Run an HTTP debugging server:
 
 ```sh
 docker run -p 8000:80 kennethreitz/httpbin
@@ -134,7 +145,8 @@ Send an MLLP message:
 printf '\x0bMESSAGE\x1c\x0d' | socat - TCP:localhost:2575
 ```
 
-and see the HTTP server's response, which describes the HTTP request:
+and see the HTTP server's response (which describes the HTTP request that the
+connector made):
 
 ```json
 {
