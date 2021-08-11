@@ -2,6 +2,10 @@
 
 [![PyPI](https://img.shields.io/pypi/v/mllp-http)](https://pypi.org/project/mllp-http/)
 
+<p align="center">
+  <img src="doc/logo.png">
+</p>
+
 ## Overview
 
 Convert MLLP to HTTP and vice versa.
