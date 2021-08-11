@@ -10,9 +10,10 @@
 
 Convert MLLP to HTTP and vice versa.
 
-`http2mllp` is an HTTP server that converts HTTP requests to MLLP messages and MLLP messages to HTTP responses.
+`http2mllp` is an HTTP server that converts HTTP requests to MLLP messages and
+MLLP messages to HTTP responses.
 
-`mllp2http` is an MLLP server that converts MLLP to HTTP requests and HTTP
+`mllp2http` is an MLLP server that converts MLLP messages to HTTP requests and HTTP
 responses to MLLP messages.
 
 Keywords: MLLP, HTTP, HL7, HL7 over HTTP
@@ -28,7 +29,8 @@ designed around HTTP. This observation is the foundation for the
 specification.
 
 This project, MLLP/HTTP, bridges these two protocols, allowing network engineers
-and application developers to work with familiar HTTP technlogy while interfacing with MLLP-based programs.
+and application developers to work with familiar HTTP technlogy while
+interfacing with MLLP-based programs.
 
 Implements
 [MLLP release 1](https://www.hl7.org/documentcenter/public/wg/inm/mllp_transport_specification.PDF)
@@ -37,9 +39,9 @@ assumed to have a corresponding response content (e.g. HL7 acknoledgment).
 
 Note that this project deals only with the MLLP layer; it does not process HL7
 messages themselves. Notably, the HTTP participant must be able to intepret HL7
-messages and generate acknowledgements. This separation is a good thing, as it
-leaves application developers with full access to the features of the HL7
-protocol.
+messages and generate acknowledgements. This separation imposes no requirements
+for HL7 usage and leaves application developers with full access to the features
+of the HL7 protocol.
 
 ## Install
 
