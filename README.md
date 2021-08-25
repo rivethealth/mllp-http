@@ -128,6 +128,7 @@ optional arguments:
 
 environment variables:
     HTTP_AUTHORIZATION - HTTP Authorization header
+    API_KEY - HTTP X-API-KEY header
 ```
 
 ## Examples

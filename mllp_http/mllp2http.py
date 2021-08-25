@@ -47,6 +47,7 @@ class MllpHandler(socketserver.StreamRequestHandler):
                     }
                     try:
                         headers["Authorization"] = os.environ["HTTP_AUTHORIZATION"]
+                        headers["X-API-KEY"] = os.environ["API_KEY"]
                     except KeyError:
                         pass
                     if self.http_options.content_type is not None:
