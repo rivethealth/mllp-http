@@ -120,6 +120,7 @@ def mllp2http():
         epilog="""
 environment variables:
     HTTP_AUTHORIZATION - HTTP Authorization header
+    X-API-KEY - HTTP X-API-KEY header
         """,
     )
     parser.add_argument(
