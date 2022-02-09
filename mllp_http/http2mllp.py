@@ -1,5 +1,6 @@
 import http.server
 import logging
+import socket
 import threading
 import time
 from .mllp import write_mllp
@@ -44,7 +45,9 @@ class MllpClient:
 
     def _connect(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(self.options.timeout)
+        if self.options.timeout:
+            s.settimeout(self.options.timeout)
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 10)
         s.connect(self.address)
         connection = MllpConnection(s)
         if self.keep_alive is not None:

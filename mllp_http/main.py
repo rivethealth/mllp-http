@@ -70,7 +70,7 @@ def http2mllp():
     )
     parser.add_argument(
         "--timeout",
-        default=1000 * 10,
+        default=0,
         type=float,
         help="socket timeout, in milliseconds, or unlimited if 0.",
     )

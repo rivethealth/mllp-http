@@ -99,7 +99,7 @@ optional arguments:
   --mllp-max-messages MLLP_MAX_MESSAGES
                         maximum number of messages per connection, or unlimited if -1. (default: -1)
   --mllp-release {1}    MLLP release version (default: 1)
-  --timeout TIMEOUT     socket timeout, in milliseconds, or unlimited if 0. (default: 10000)
+  --timeout TIMEOUT     socket timeout, in milliseconds, or unlimited if 0. (default: 0)
   -v, --version         show program's version number and exit
 ```
 
@@ -123,7 +123,7 @@ optional arguments:
                         HTTP Content-Type header (default: x-application/hl7-v2+er7)
   --log-level {error,warn,info}
   --mllp-release {1}    MLLP release version (default: 1)
-  --timeout TIMEOUT     timeout in milliseconds (default: 10000)
+  --timeout TIMEOUT     timeout in milliseconds (default: 0)
   -v, --version         show program's version number and exit
 
 environment variables:

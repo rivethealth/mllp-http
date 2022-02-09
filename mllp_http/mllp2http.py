@@ -2,6 +2,7 @@ import functools
 import logging
 import os
 import requests
+import socket
 import socketserver
 import urllib
 from .mllp import read_mllp, write_mllp
@@ -28,7 +29,9 @@ class MllpHandler(socketserver.StreamRequestHandler):
         super().__init__(request, address, server)
 
     def handle(self):
-        self.request.settimeout(self.timeout)
+        if self.timeout:
+            self.request.settimeout(self.timeout)
+        self.request.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 10)
         session = requests.Session()
         local_address = self.request.getsockname()
         remote_address = self.request.getpeername()
