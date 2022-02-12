@@ -57,6 +57,11 @@ def http2mllp():
         default="info",
     )
     parser.add_argument(
+        "--mllp-keep-alive",
+        type=int,
+        default=10 * 1000,
+    )
+    parser.add_argument(
         "--mllp-max-messages",
         type=int,
         default=-1,
