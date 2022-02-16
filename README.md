@@ -29,7 +29,7 @@ designed around HTTP. This observation is the foundation for the
 specification.
 
 This project, MLLP/HTTP, bridges these two protocols, allowing network engineers
-and application developers to work with familiar HTTP technlogy while
+and application developers to work with familiar HTTP technology while
 interfacing with MLLP-based programs.
 
 Implements
@@ -68,9 +68,9 @@ docker pull rivethealth/mllp-http
 Run as
 
 ```sh
-docker run -it -p 2575:2575 rivethealth/mllp-http http2mllp mllp://localhost:2575
+docker run -it -p 2575:2575 --rm rivethealth/mllp-http http2mllp mllp://localhost:2575
 
-docker run -it -p 2575:2575 rivethealth/mllp-http mllp2http http://localhost:8000
+docker run -it -p 2575:2575 --rm rivethealth/mllp-http mllp2http http://localhost:8000
 ```
 
 ## Usage
@@ -138,7 +138,7 @@ environment variables:
 Run an HTTP debugging server:
 
 ```sh
-docker run -p 8000:80 kennethreitz/httpbin
+docker run -p 8000:80 --rm kennethreitz/httpbin
 ```
 
 Run the MLLP connector:
