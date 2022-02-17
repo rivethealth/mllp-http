@@ -159,7 +159,7 @@ environment variables:
     )
     parser.add_argument(
         "--timeout",
-        default=1000 * 10,
+        default=0,
         type=float,
         help="timeout in milliseconds",
     )
