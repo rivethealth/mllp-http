@@ -178,10 +178,10 @@ environment variables:
 
     http_client_options = mllp_http.mllp2http.HttpClientOptions(
         content_type=args.content_type,
-        timeout=args.timeout,
+        timeout=args.timeout if args.timeout else None,
     )
     mllp_server_options = mllp_http.mllp2http.MllpServerOptions(
-        timeout=args.timeout / 1000
+        timeout=args.timeout / 1000 if args.timeout else None
     )
 
     try:

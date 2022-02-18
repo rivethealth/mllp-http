@@ -95,7 +95,7 @@ def serve(address, options, http_url, http_options):
         MllpHandler,
         http_url=http_url,
         http_options=http_options,
-        timeout=options.timeout,
+        timeout=options.timeout or None,
     )
 
     server = ThreadedTCPServer(address, handler)

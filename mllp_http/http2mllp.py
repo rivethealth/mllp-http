@@ -144,7 +144,7 @@ def serve(address, options, mllp_address, mllp_options):
         content_type=options.content_type,
         keep_alive=options.keep_alive,
         mllp_client=client,
-        timeout=options.timeout,
+        timeout=options.timeout or None,
     )
 
     server = http.server.ThreadingHTTPServer(address)
