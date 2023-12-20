@@ -57,18 +57,18 @@ def http2mllp():
         default="info",
     )
     parser.add_argument(
-        "--mllp-keep-alive",
+        "--mllp_keep_alive",
         type=int,
         default=10 * 1000,
     )
     parser.add_argument(
-        "--mllp-max-messages",
+        "--mllp_max_messages",
         type=int,
         default=-1,
         help="maximum number of messages per connection, or unlimited if -1.",
     )
     parser.add_argument(
-        "--mllp-release",
+        "--mllp_release",
         default="1",
         choices=("1"),
         help="MLLP release version",
@@ -99,19 +99,21 @@ def http2mllp():
     )
     mllp_client_options = mllp_http.http2mllp.MllpClientOptions(
         keep_alive=args.mllp_keep_alive / 1000,
-        max_messages=args.max_messages,
+        max_messages=args.mllp_max_messages,
         timeout=args.timeout / 100,
     )
-
     try:
         mllp_http.http2mllp.serve(
             address=(
-                args.mllp_url,
-                args.mllp_port if args.mllp_port is not None else 2575,
+                args.host,
+                args.port,
             ),
             options=http_server_options,
-            mllp_url=args.url,
-            mllp_options=mllp_options,
+            mllp_address=(
+                args.mllp_url.hostname,
+                args.mllp_url.port
+            ),
+            mllp_options=mllp_client_options,
         )
     except KeyboardInterrupt:
         pass
