@@ -44,7 +44,7 @@ class MllpClient:
                     connection.close()
 
     def _connect(self):
-        logger.info("connecting to "+self.address[0]+":"+self.address[1])
+        logger.info("connecting to "+self.address[0]+":"+str(self.address[1]))
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         if self.options.timeout:
             s.settimeout(self.options.timeout)
