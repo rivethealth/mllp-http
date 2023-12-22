@@ -109,10 +109,7 @@ def http2mllp():
                 args.port,
             ),
             options=http_server_options,
-            mllp_address=(
-                args.mllp_url.hostname,
-                args.mllp_url.port
-            ),
+            mllp_address=(args.mllp_url.hostname, args.mllp_url.port),
             mllp_options=mllp_client_options,
         )
     except KeyboardInterrupt:

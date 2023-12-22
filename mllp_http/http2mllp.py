@@ -4,7 +4,7 @@ import logging
 import socket
 import threading
 import time
-from .mllp import read_mllp,write_mllp_socket
+from .mllp import read_mllp, write_mllp_socket
 from .net import read_real_socket_bytes
 
 logger = logging.getLogger(__name__)
@@ -24,7 +24,7 @@ class MllpClient:
         self.connections = []
         self.lock = threading.Lock()
 
-    def _check_connection(self,connection):
+    def _check_connection(self, connection):
         while not connection.closed:
             elapsed = (
                 connection.last_update - time.monotonic()
@@ -44,7 +44,7 @@ class MllpClient:
                     connection.close()
 
     def _connect(self):
-        logger.info("connecting to "+self.address[0]+":"+str(self.address[1]))
+        logger.info("connecting to " + self.address[0] + ":" + str(self.address[1]))
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         if self.options.timeout:
             s.settimeout(self.options.timeout)
@@ -69,7 +69,10 @@ class MllpClient:
         if connection is None:
             connection = self._connect()
         response = connection.send(data)
-        if self.options.max_messages > 0 and self.options.max_messages <= connection.message_count:
+        if (
+            self.options.max_messages > 0
+            and self.options.max_messages <= connection.message_count
+        ):
             connection.close()
         else:
             connection.last_update = time.monotonic()
@@ -77,34 +80,36 @@ class MllpClient:
                 self.connections.append(connection)
         return response
 
+
 class MllpConnection:
     def __init__(self, socket):
         self.cancel = None
         self.closed = False
         self.socket = socket
         self.responses = read_mllp(read_real_socket_bytes(self.socket))
-        self.message_count=0
+        self.message_count = 0
         self.last_update = time.monotonic()
 
     def close(self):
         self.closed = True
         self.socket.close()
 
-    def send(self,data):
+    def send(self, data):
         write_mllp_socket(self.socket, data)
         # self.socket.flush()
         self.message_count += 1
         return next(self.responses)
-    
+
+
 class HttpServerOptions:
     def __init__(self, timeout):
         self.timeout = timeout
 
 
 class HttpHandler(http.server.BaseHTTPRequestHandler):
-    def __init__(self, request, client_address, server,mllp_client):
+    def __init__(self, request, client_address, server, mllp_client):
         self.mllp_client = mllp_client
-        super().__init__(request,client_address,server)
+        super().__init__(request, client_address, server)
 
     def do_POST(self):
         content_length = int(self.headers["Content-Length"])
@@ -125,7 +130,7 @@ def serve(address, options, mllp_address, mllp_options):
         mllp_client=client,
     )
 
-    server = http.server.ThreadingHTTPServer(address,handler)
+    server = http.server.ThreadingHTTPServer(address, handler)
     server.protocol_version = "HTTP/1.1"
     logger.info("HTTP server on %s:%s", address[0], address[1])
     server.serve_forever()
