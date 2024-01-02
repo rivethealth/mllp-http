@@ -8,3 +8,11 @@ def read_socket_bytes(s):
             yield ord(b)
     except socket.timeout:
         pass
+
+
+def read_real_socket_bytes(s):
+    try:
+        for b in iter(functools.partial(s.recv, 1), b""):
+            yield ord(b)
+    except socket.timeout:
+        pass
